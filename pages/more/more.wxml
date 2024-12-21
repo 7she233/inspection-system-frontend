@@ -1,0 +1,51 @@
+<view class="page">
+  <view class="search-bar">
+    <view class="search-input">
+      <icon type="search" size="16"></icon>
+      <input 
+        placeholder="搜索巡检记录" 
+        bindinput="onSearchInput"
+        value="{{searchKey}}"
+      />
+    </view>
+    <view class="date-filter" bindtap="showDatePicker">
+      <text>{{dateFilter || '选择日期'}}</text>
+      <text class="iconfont icon-calendar"></text>
+    </view>
+  </view>
+
+  <scroll-view 
+    scroll-y 
+    class="inspection-list"
+    bindscrolltolower="loadMore"
+    refresher-enabled="{{true}}"
+    bindrefresherrefresh="onRefresh"
+    refresher-triggered="{{isRefreshing}}"
+  >
+    <block wx:if="{{inspections.length > 0}}">
+      <view class="inspection-item" 
+            wx:for="{{inspections}}" 
+            wx:key="id"
+            bindtap="goToDetail"
+            data-id="{{item.id}}">
+        <view class="item-header">
+          <text class="item-name">{{item.name}}</text>
+          <text class="item-date">{{item.date}}</text>
+        </view>
+        <view class="item-summary">{{item.aiSummary}}</view>
+      </view>
+    </block>
+    
+    <view class="empty-state" wx:if="{{!isLoading && inspections.length === 0}}">
+      <text>暂无巡检记录</text>
+    </view>
+    
+    <view class="loading" wx:if="{{isLoading}}">
+      <text>加载中...</text>
+    </view>
+    
+    <view class="no-more" wx:if="{{noMore && inspections.length > 0}}">
+      <text>没有更多记录了</text>
+    </view>
+  </scroll-view>
+</view> 

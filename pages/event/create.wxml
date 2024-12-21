@@ -1,0 +1,83 @@
+<view class="event-create">
+  <!-- 顶部导航栏 -->
+  <view class="nav-bar">
+    <view class="nav-title">{{isEdit ? '编辑事件' : '创建事件'}}</view>
+    <view class="nav-btn save-btn" bindtap="saveEventPoint">保存</view>
+  </view>
+
+  <view class="main-content">
+    <!-- 手工输入区域 -->
+    <view class="section text-input-section">
+      <view class="section-title">问题描述</view>
+      <view class="text-input-area">
+        <textarea class="description-input" 
+                 placeholder="请输入问题描述（选填）" 
+                 value="{{manualDescription}}"
+                 bindinput="onDescriptionInput"
+                 maxlength="500"
+                 auto-height></textarea>
+        <view class="input-counter">{{manualDescription.length}}/500</view>
+      </view>
+    </view>
+
+    <!-- 录音记录列表 -->
+    <view class="section voice-list-section">
+      <view class="section-title">录音记录</view>
+      <view class="voice-list">
+        <view class="voice-item" 
+              wx:for="{{voiceList}}" 
+              wx:key="id">
+          <view class="voice-info" bindtap="playVoice" data-url="{{item.url}}">
+            <view class="voice-icon {{item.isPlaying ? 'playing' : ''}}"></view>
+            <view class="voice-detail">
+              <text class="voice-time">{{item.duration}}秒</text>
+              <text class="voice-text">{{item.text || '正在识别...'}}</text>
+            </view>
+          </view>
+          <view class="voice-delete" bindtap="deleteVoice" data-index="{{index}}">×</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- AI转写区域 -->
+    <view class="section text-section" wx:if="{{description}}">
+      <view class="section-title">语音转写</view>
+      <view class="description">
+        <text>{{description}}</text>
+      </view>
+    </view>
+
+    <!-- 照片区域 -->
+    <view class="section photo-section">
+      <view class="section-title">现场照片</view>
+      <view class="photo-list">
+        <view class="photo-item" wx:for="{{photos}}" wx:key="index">
+          <image src="{{item}}" mode="aspectFill"></image>
+          <view class="photo-delete" bindtap="deletePhoto" data-index="{{index}}">×</view>
+        </view>
+        <view class="photo-add" bindtap="takePhoto">
+          <text class="add-icon">+</text>
+          <text class="add-text">拍照</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- AI分析区域 -->
+    <view class="section ai-section" wx:if="{{aiAnalysis}}">
+      <view class="section-title">AI分析</view>
+      <view class="ai-content">
+        <text>{{aiAnalysis}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部语音按钮 -->
+  <view class="voice-section">
+    <view class="voice-record {{recording ? 'recording' : ''}}">
+      <view class="voice-btn" bindtouchstart="startVoiceRecord" bindtouchend="stopVoiceRecord">
+        <view class="voice-icon"></view>
+        <text>{{recording ? '��开结束' : '按住说话'}}</text>
+      </view>
+    </view>
+  </view>
+</view> 

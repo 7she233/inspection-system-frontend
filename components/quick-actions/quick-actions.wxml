@@ -1,0 +1,10 @@
+<view class="quick-actions">
+  <view class="action-btn" bindtap="createNewInspection">
+    <image src="/images/new-inspection.png"></image>
+    <text>新建巡检</text>
+  </view>
+  <view class="action-btn" bindtap="createEventPoint">
+    <image src="/images/event-point.png"></image>
+    <text>创建事件点</text>
+  </view>
+</view> 

@@ -1,0 +1,47 @@
+<view class="container">
+  <loading show="{{loading}}" text="加载中..."></loading>
+  
+  <view class="user-card">
+    <view class="user-info">
+      <image class="user-avatar" src="{{userInfo.avatarUrl || '/assets/user.png'}}" default-avatar="/assets/user.png"></image>
+      <view class="user-detail">
+        <text class="user-name">{{userInfo.name || '未登录'}}</text>
+        <text class="user-role">{{userInfo.role || ''}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="recent-inspections">
+    <view class="recent-title">
+      <text>最近巡检</text>
+    </view>
+    
+    <view class="inspection-list {{loading ? 'loading' : ''}}">
+      <view class="inspection-item" 
+            wx:for="{{recentInspections}}" 
+            wx:key="id" 
+            bindtap="goToDetail" 
+            data-id="{{item.id}}">
+        <view class="inspection-info">
+          <text class="inspection-name">{{item.name}}</text>
+          <text class="inspection-date">{{item.date}}</text>
+        </view>
+        <view class="inspection-status {{item.status === '记录完成' ? 'completed' : 'recording'}}">
+          <text>{{item.status}}</text>
+        </view>
+      </view>
+
+      <view class="empty-tip" wx:if="{{!loading && recentInspections.length === 0}}">
+        暂无巡检记录
+      </view>
+    </view>
+    
+    <view class="more-btn" bindtap="goToMore" wx:if="{{recentInspections.length > 0}}">
+      查看更多
+    </view>
+  </view>
+
+  <view class="new-inspection-btn" bindtap="startNewInspection">
+    新巡检
+  </view>
+</view> 

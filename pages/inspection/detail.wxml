@@ -1,0 +1,59 @@
+<view class="inspection-detail">
+  <view class="nav-bar">
+    <view class="nav-title">巡检详情</view>
+  </view>
+
+  <view class="main-content">
+    <!-- 基本信息 -->
+    <view class="section info-section">
+      <view class="info-item">
+        <text class="info-label">巡检名称</text>
+        <text class="info-value">{{name}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">巡检位置</text>
+        <text class="info-value">{{location}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">创建时间</text>
+        <text class="info-value">{{createTime}}</text>
+      </view>
+    </view>
+
+    <!-- 事件列表 -->
+    <view class="event-list">
+      <view class="list-header">
+        <text class="title">事件记录</text>
+        <text class="event-count" wx:if="{{eventPoints.length}}">（共{{eventPoints.length}}条）</text>
+      </view>
+      
+      <view class="empty-tip" wx:if="{{!eventPoints.length}}">
+        <image class="empty-icon" src="/assets/empty.png"></image>
+        <text>暂无事件���录</text>
+      </view>
+      
+      <view class="event-items" wx:else>
+        <view class="event-item" 
+              wx:for="{{eventPoints}}" 
+              wx:key="id"
+              bindtap="editEventPoint"
+              data-index="{{index}}">
+          <view class="event-info">
+            <text class="event-name">{{item.description || '事件点' + (index + 1)}}</text>
+            <text class="event-time">{{item.createTime}}</text>
+          </view>
+          <view class="event-media">
+            <image class="event-photo" 
+                   wx:if="{{item.photos.length}}" 
+                   src="{{item.photos[0]}}" 
+                   mode="aspectFill"></image>
+            <view class="voice-icon" wx:if="{{item.voiceList.length}}"></view>
+          </view>
+          <view class="event-status">
+            <text class="status-text">{{item.status}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view> 

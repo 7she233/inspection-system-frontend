@@ -1,0 +1,44 @@
+<view class="detail-container">
+  <view class="detail-card">
+    <view class="detail-header">
+      <text class="project-name">{{inspection.name}}</text>
+      <text class="inspection-time">{{inspection.date}}</text>
+    </view>
+
+    <view class="section">
+      <view class="section-title">AI总结</view>
+      <view class="section-content">{{inspection.aiSummary}}</view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">录音转文字</view>
+      <view class="section-content">{{inspection.audioText}}</view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">录音文件</view>
+      <view class="audio-player">
+        <audio 
+          src="{{inspection.audioUrl}}" 
+          id="myAudio" 
+          controls
+          bindplay="onPlay"
+          bindpause="onPause"
+          bindtimeupdate="onTimeUpdate"
+          bindended="onEnded">
+        </audio>
+      </view>
+    </view>
+
+    <view class="section" wx:if="{{inspection.photos.length > 0}}">
+      <view class="section-title">现场照片</view>
+      <view class="photo-grid">
+        <block wx:for="{{inspection.photos}}" wx:key="*this">
+          <view class="photo-item" bindtap="previewImage" data-url="{{item}}">
+            <image src="{{item}}" mode="aspectFill"></image>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+</view> 
