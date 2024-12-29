@@ -1,18 +1,20 @@
 // 日期格式化
-const formatDate = (date, format = 'YYYY-MM-DD HH:mm') => {
+const formatDate = (date, format = 'YYYY-MM-DD HH:mm:ss') => {
   const d = new Date(date);
   const year = d.getFullYear();
   const month = (d.getMonth() + 1).toString().padStart(2, '0');
   const day = d.getDate().toString().padStart(2, '0');
   const hour = d.getHours().toString().padStart(2, '0');
   const minute = d.getMinutes().toString().padStart(2, '0');
+  const second = d.getSeconds().toString().padStart(2, '0');
 
   return format
     .replace('YYYY', year)
     .replace('MM', month)
     .replace('DD', day)
     .replace('HH', hour)
-    .replace('mm', minute);
+    .replace('mm', minute)
+    .replace('ss', second);
 };
 
 // 文件大小格式化

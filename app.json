@@ -1,18 +1,29 @@
 {
   "pages": [
+    "pages/login/index",
     "pages/index/index",
     "pages/inspection/create",
-    "pages/event/create",
-    "pages/more/more"
+    "pages/inspection/detail",
+    "pages/more/more",
+    "pages/event/index",
+    "pages/event/create"
   ],
-  "useExtendedLib": {
-    "weui": true
-  },
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "巡检助手",
+    "navigationBarTitleText": "巡检系统",
     "navigationBarTextStyle": "black"
   },
-  "sitemapLocation": "sitemap.json"
+  "networkTimeout": {
+    "request": 10000
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于记录巡检地点"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation"
+  ]
 } 

@@ -1,140 +1,84 @@
+const api = require('../../services/api');
+const { handleError } = require('../../utils/util');
+
 Page({
   data: {
-    searchKey: '',
-    dateFilter: '',
     inspections: [],
+    loading: false,
+    hasMore: true,
     page: 1,
-    isLoading: false,
-    noMore: false,
-    isRefreshing: false
+    pageSize: 10
   },
 
   onLoad() {
-    // 立即加载初始数据
-    this.loadInspections()
+    this.loadInspections();
   },
 
-  // 搜索输入
-  onSearchInput(e) {
+  onPullDownRefresh() {
     this.setData({
-      searchKey: e.detail.value
-    })
-    this.debounceSearch()
-  },
-
-  // 防抖搜索
-  debounceSearch: function() {
-    if (this.searchTimer) {
-      clearTimeout(this.searchTimer)
-    }
-    this.searchTimer = setTimeout(() => {
-      this.setData({ page: 1, inspections: [] })
-      this.loadInspections()
-    }, 500)
-  },
-
-  // 显示日期选择器
-  showDatePicker() {
-    wx.showPicker({
-      mode: 'date',
-      value: this.data.dateFilter || this.formatDate(new Date()),
-      success: (res) => {
-        this.setData({
-          dateFilter: res.value,
-          page: 1,
-          inspections: []
-        })
-        this.loadInspections()
-      }
-    })
-  },
-
-  // 格式化日期
-  formatDate(date) {
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
-  },
-
-  // 加载巡检记录
-  loadInspections() {
-    if (this.data.isLoading || this.data.noMore) return
-    
-    this.setData({ isLoading: true })
-    
-    // 模拟数据
-    setTimeout(() => {
-      const mockData = [
-        {
-          id: '001',
-          name: '重庆解放碑万达广场',
-          date: '2024-03-15 14:30',
-          aiSummary: '现场秩序良好，设备运转正常，存在部分安全隐患需要处理。'
-        },
-        {
-          id: '002',
-          name: '南坪万达广场',
-          date: '2024-03-14 10:15',
-          aiSummary: '人流量适中，设备维护及时，无重大安全隐患。'
-        },
-        {
-          id: '003',
-          name: '观音桥步行街',
-          date: '2024-03-13 16:45',
-          aiSummary: '商户经营正常，卫生状况良好，建议加强消防设施检查。'
-        }
-      ]
-
-      // 根据搜索关键词过滤
-      let filteredData = mockData
-      if (this.data.searchKey) {
-        filteredData = mockData.filter(item => 
-          item.name.includes(this.data.searchKey) || 
-          item.aiSummary.includes(this.data.searchKey)
-        )
-      }
-
-      // 根据日期过滤
-      if (this.data.dateFilter) {
-        filteredData = filteredData.filter(item => 
-          item.date.startsWith(this.data.dateFilter)
-        )
-      }
-      
-      this.setData({
-        inspections: this.data.page === 1 ? filteredData : [...this.data.inspections, ...filteredData],
-        isLoading: false,
-        noMore: true, // 模拟数据都加载完了
-        isRefreshing: false
-      })
-    }, 500)
-  },
-
-  // 下拉刷新
-  onRefresh() {
-    this.setData({
-      page: 1,
       inspections: [],
-      noMore: false,
-      isRefreshing: true
-    })
-    this.loadInspections()
+      page: 1,
+      hasMore: true
+    }, () => {
+      this.loadInspections();
+    });
   },
 
-  // 上拉加载更多
-  loadMore() {
-    if (!this.data.noMore) {
-      this.setData({ page: this.data.page + 1 })
-      this.loadInspections()
+  onReachBottom() {
+    if (this.data.hasMore && !this.data.loading) {
+      this.loadInspections();
     }
   },
 
-  // 跳转到详情
+  async loadInspections() {
+    if (this.data.loading) return;
+
+    try {
+      this.setData({ loading: true });
+      
+      const response = await api.getInspections({
+        page: this.data.page,
+        page_size: this.data.pageSize,
+        ordering: '-created_at'
+      });
+
+      console.log('获取到巡检列表:', response);
+      
+      // 处理返回的数据
+      const inspections = response.data || [];
+      const formattedInspections = inspections.map(item => ({
+        id: item.id,
+        name: item.title,
+        date: item.created_at,
+        status: item.status_display || '草稿',
+        location: item.location
+      }));
+
+      // 如果返回的数据少于页面大小，说明没有更多数据了
+      const hasMore = formattedInspections.length === this.data.pageSize;
+
+      this.setData({
+        inspections: [...this.data.inspections, ...formattedInspections],
+        page: this.data.page + 1,
+        hasMore
+      });
+    } catch (error) {
+      console.error('加载巡检记录失败:', error);
+      handleError(error, '加载巡检记录失败');
+    } finally {
+      this.setData({ loading: false });
+      wx.stopPullDownRefresh();
+    }
+  },
+
   goToDetail(e) {
-    const id = e.currentTarget.dataset.id
+    const id = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: `/pages/detail/detail?id=${id}`
-    })
+      url: `/pages/event/index?inspectionId=${id}`,
+      fail: (error) => {
+        console.error('跳转到事件页面失败:', error);
+        handleError(new Error('页面跳转失败'));
+      }
+    });
   }
-}) 
+}); 

@@ -1,51 +1,34 @@
-<view class="page">
-  <view class="search-bar">
-    <view class="search-input">
-      <icon type="search" size="16"></icon>
-      <input 
-        placeholder="搜索巡检记录" 
-        bindinput="onSearchInput"
-        value="{{searchKey}}"
-      />
+<view class="container">
+  <loading show="{{loading}}" text="加载中..."></loading>
+
+  <!-- 巡检列表 -->
+  <view class="inspection-list">
+    <view class="inspection-item" 
+          wx:for="{{inspections}}" 
+          wx:key="id"
+          bindtap="goToDetail" 
+          data-id="{{item.id}}">
+      <view class="inspection-info">
+        <text class="inspection-name">{{item.name}}</text>
+        <text class="inspection-location">{{item.location}}</text>
+        <text class="inspection-date">{{item.date}}</text>
+      </view>
+      <view class="inspection-status {{item.status === '已完成' ? 'completed' : item.status === '进行中' ? 'in-progress' : item.status === '已归档' ? 'archived' : 'draft'}}">
+        <text>{{item.status}}</text>
+      </view>
     </view>
-    <view class="date-filter" bindtap="showDatePicker">
-      <text>{{dateFilter || '选择日期'}}</text>
-      <text class="iconfont icon-calendar"></text>
+
+    <!-- 空状态 -->
+    <view class="empty-tip" wx:if="{{!loading && inspections.length === 0}}">
+      暂无巡检记录
+    </view>
+
+    <!-- 加载更多提示 -->
+    <view class="loading-more" wx:if="{{loading && inspections.length > 0}}">
+      加载中...
+    </view>
+    <view class="no-more" wx:if="{{!hasMore && inspections.length > 0}}">
+      没有更多数据了
     </view>
   </view>
-
-  <scroll-view 
-    scroll-y 
-    class="inspection-list"
-    bindscrolltolower="loadMore"
-    refresher-enabled="{{true}}"
-    bindrefresherrefresh="onRefresh"
-    refresher-triggered="{{isRefreshing}}"
-  >
-    <block wx:if="{{inspections.length > 0}}">
-      <view class="inspection-item" 
-            wx:for="{{inspections}}" 
-            wx:key="id"
-            bindtap="goToDetail"
-            data-id="{{item.id}}">
-        <view class="item-header">
-          <text class="item-name">{{item.name}}</text>
-          <text class="item-date">{{item.date}}</text>
-        </view>
-        <view class="item-summary">{{item.aiSummary}}</view>
-      </view>
-    </block>
-    
-    <view class="empty-state" wx:if="{{!isLoading && inspections.length === 0}}">
-      <text>暂无巡检记录</text>
-    </view>
-    
-    <view class="loading" wx:if="{{isLoading}}">
-      <text>加载中...</text>
-    </view>
-    
-    <view class="no-more" wx:if="{{noMore && inspections.length > 0}}">
-      <text>没有更多记录了</text>
-    </view>
-  </scroll-view>
 </view> 

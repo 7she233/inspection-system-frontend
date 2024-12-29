@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "巡检记录",
   "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark",
-  "backgroundColor": "#f0f6ff"
+  "usingComponents": {
+    "loading": "/components/loading/index"
+  }
 } 

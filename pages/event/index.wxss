@@ -1,0 +1,186 @@
+.container {
+  min-height: 100vh;
+  background: #f5f7fa;
+  padding-bottom: 120rpx;
+  box-sizing: border-box;
+}
+
+/* 巡检信息 */
+.inspection-info {
+  background: #fff;
+  margin: 24rpx;
+  padding: 24rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.info-header .title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.info-header .status {
+  font-size: 24rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 24rpx;
+}
+
+.status.draft {
+  color: #666;
+  background: #f0f0f0;
+}
+
+.status.in_progress {
+  color: #4776e6;
+  background: rgba(71, 118, 230, 0.1);
+}
+
+.status.completed {
+  color: #07c160;
+  background: rgba(7, 193, 96, 0.1);
+}
+
+.status.archived {
+  color: #999;
+  background: #f5f5f5;
+}
+
+.info-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.info-detail .location {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.info-detail .time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 事件列表 */
+.event-list {
+  background: #fff;
+  margin: 24rpx;
+  padding: 24rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+
+.list-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.list-header .title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.list-header .count {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 8rpx;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 48rpx 0;
+  color: #999;
+}
+
+.empty-tip image {
+  width: 96rpx;
+  height: 96rpx;
+  margin-bottom: 16rpx;
+}
+
+.event-items {
+  margin-top: 24rpx;
+}
+
+.event-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.event-item:last-child {
+  border-bottom: none;
+}
+
+.event-info {
+  flex: 1;
+}
+
+.event-title {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.event-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.event-media {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.event-media .photo {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 8rpx;
+}
+
+.event-media .voice-icon {
+  width: 32rpx;
+  height: 32rpx;
+  background: url('/assets/images/voice.png') no-repeat center/contain;
+}
+
+/* 底部按钮 */
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 24rpx;
+  background: #fff;
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+
+.footer button {
+  flex: 1;
+  margin: 0 12rpx;
+}
+
+.btn-back {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.btn-create {
+  background: #07c160;
+} 

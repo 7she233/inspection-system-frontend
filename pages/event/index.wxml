@@ -1,0 +1,54 @@
+<view class="container">
+  <loading show="{{loading}}" text="加载中..."></loading>
+  
+  <!-- 巡检信息 -->
+  <view class="inspection-info" wx:if="{{inspection}}">
+    <view class="info-header">
+      <text class="title">{{inspection.title}}</text>
+      <text class="status {{inspection.status}}">{{inspection.status_display}}</text>
+    </view>
+    <view class="info-detail">
+      <text class="location">{{inspection.location}}</text>
+      <text class="time">{{inspection.created_at}}</text>
+    </view>
+  </view>
+
+  <!-- 事件列表 -->
+  <view class="event-list">
+    <view class="list-header">
+      <text class="title">事件列表</text>
+      <text class="count" wx:if="{{events.length}}">（共{{events.length}}个）</text>
+    </view>
+
+    <view class="empty-tip" wx:if="{{!loading && !events.length}}">
+      <image src="/assets/images/empty.png" mode="aspectFit"></image>
+      <text>暂无事件记录</text>
+    </view>
+
+    <view class="event-items" wx:else>
+      <view class="event-item" 
+            wx:for="{{events}}" 
+            wx:key="id"
+            bindtap="viewEventDetail"
+            data-event-id="{{item.id}}">
+        <view class="event-info">
+          <text class="event-title">{{item.description || '未命名事件'}}</text>
+          <text class="event-time">{{item.created_at}}</text>
+        </view>
+        <view class="event-media">
+          <image class="photo" 
+                 wx:if="{{item.photos.length}}" 
+                 src="{{item.photos[0]}}" 
+                 mode="aspectFill"></image>
+          <view class="voice-icon" wx:if="{{item.voice_files.length}}"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="footer">
+    <button class="btn-back" bindtap="goBack">返回</button>
+    <button class="btn-create" type="primary" bindtap="createEvent">新建事件</button>
+  </view>
+</view> 

@@ -1,0 +1,17 @@
+<view class="login-container">
+  <view class="logo">
+    <image src="/assets/images/logo.png" mode="aspectFit"></image>
+  </view>
+  
+  <view class="title">巡检系统</view>
+  
+  <view class="login-box">
+    <button 
+      class="login-btn {{loading ? 'loading' : ''}}"
+      bindtap="handleLogin"
+      disabled="{{loading}}"
+    >
+      {{loading ? '登录中...' : '微信登录'}}
+    </button>
+  </view>
+</view> 

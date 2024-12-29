@@ -1,92 +1,84 @@
-<view class="inspection-create">
-  <view class="nav-bar">
-    <view class="nav-title">{{isEdit ? '编辑巡检' : '新建巡检'}}</view>
-    <view class="nav-btn save-btn" bindtap="saveInspection">保存</view>
-  </view>
-
-  <view class="main-content">
-    <view class="section info-section">
-      <view class="info-item">
-        <text class="info-label">巡检名称</text>
-        <block wx:if="{{isEdit}}">
-          <text class="info-value">{{name}}</text>
-        </block>
-        <block wx:else>
-          <input class="info-input" 
-                 placeholder="请输入巡检名称" 
-                 value="{{name}}" 
-                 bindinput="onNameInput"/>
-        </block>
+<view class="container">
+  <form bindsubmit="handleSubmit">
+    <view class="form-group">
+      <view class="form-item">
+        <text class="label">巡检名称</text>
+        <input 
+          class="input" 
+          placeholder="请输入巡检名称" 
+          value="{{formData.title}}"
+          data-field="title"
+          bindinput="handleInput"
+        />
       </view>
 
-      <view class="info-item">
-        <text class="info-label">巡检位置</text>
-        <block wx:if="{{isEdit}}">
-          <text class="info-value">{{location}}</text>
-        </block>
-        <block wx:else>
-          <view class="location-info" bindtap="chooseLocation">
-            <text class="location-text">{{location || '定位中...'}}</text>
-            <text class="location-tip" wx:if="{{!location}}">点击重新定位</text>
+      <view class="form-item">
+        <text class="label">巡检地点</text>
+        <view class="location-wrapper">
+          <input 
+            class="input location-input" 
+            placeholder="点击右侧按钮选择位置或手动输入" 
+            value="{{formData.location}}"
+            data-field="location"
+            bindinput="handleInput"
+          />
+          <view class="location-btn" bindtap="chooseLocation">
+            <text class="location-btn-text">选择位置</text>
           </view>
-        </block>
+        </view>
       </view>
 
-      <view class="info-item" wx:if="{{!isEdit && !location}}">
-        <text class="info-label">手动输入</text>
-        <input class="info-input" 
-               placeholder="无法定位？点击这里手动输入地址" 
-               value="{{manualLocation}}" 
-               bindinput="onLocationInput"
-               bindblur="onLocationBlur"/>
+      <view class="form-item">
+        <text class="label">巡检描述</text>
+        <textarea 
+          class="textarea" 
+          placeholder="请输入巡检描述" 
+          value="{{formData.summary}}"
+          data-field="summary"
+          bindinput="handleInput"
+        />
       </view>
 
-      <view class="info-item" wx:if="{{createTime}}">
-        <text class="info-label">创建时间</text>
-        <text class="info-value">{{createTime}}</text>
-      </view>
-    </view>
-
-    <view class="event-list">
-      <view class="list-header">
-        <text class="title">事件记录</text>
-        <text class="event-count" wx:if="{{eventPoints.length}}">（共{{eventPoints.length}}条）</text>
-      </view>
-      
-      <view class="empty-tip" wx:if="{{!eventPoints.length}}">
-        <image class="empty-icon" src="/assets/empty.png"></image>
-        <text>点击下方按钮创建事件</text>
-      </view>
-      
-      <view class="event-items" wx:else>
-        <view class="event-item" 
-              wx:for="{{eventPoints}}" 
-              wx:key="id"
-              bindtap="editEventPoint"
-              data-index="{{index}}">
-          <view class="event-info">
-            <text class="event-name">{{item.description || '事件点' + (index + 1)}}</text>
-            <text class="event-time">{{item.createTime}}</text>
+      <view class="form-item">
+        <text class="label">巡检图片</text>
+        <view class="image-list">
+          <view 
+            class="image-item" 
+            wx:for="{{formData.images}}" 
+            wx:key="index"
+          >
+            <image 
+              src="{{item}}" 
+              mode="aspectFill"
+              bindtap="handlePreviewImage"
+              data-url="{{item}}"
+            />
+            <view 
+              class="delete-btn"
+              catchtap="handleDeleteImage"
+              data-index="{{index}}"
+            >×</view>
           </view>
-          <view class="event-media">
-            <image class="event-photo" 
-                   wx:if="{{item.photos.length}}" 
-                   src="{{item.photos[0]}}" 
-                   mode="aspectFill"></image>
-            <view class="voice-icon" wx:if="{{item.voiceList.length}}"></view>
-          </view>
-          <view class="event-status">
-            <text class="status-text">{{item.status}}</text>
+          <view 
+            class="add-image"
+            bindtap="handleChooseImage"
+            wx:if="{{formData.images.length < 9}}"
+          >
+            <text class="add-icon">+</text>
           </view>
         </view>
       </view>
     </view>
-  </view>
 
-  <view class="footer">
-    <button class="create-event-btn" bindtap="createEventPoint">
-      <text class="btn-icon">+</text>
-      <text>创建事件</text>
-    </button>
-  </view>
+    <view class="footer">
+      <button 
+        class="submit-btn" 
+        type="primary" 
+        formType="submit"
+        loading="{{loading}}"
+      >
+        {{loading ? '保存中...' : '保存'}}
+      </button>
+    </view>
+  </form>
 </view> 

@@ -1,5 +1,5 @@
-const { inspectionApi, userApi } = require('../../services/api');
-const { formatDate, handleError } = require('../../utils/util');
+const api = require('../../services/api');
+const { handleError } = require('../../utils/util');
 
 Page({
   data: {
@@ -47,7 +47,8 @@ Page({
       }
 
       // 获取新的用户信息
-      const userInfo = await userApi.getUserInfo();
+      const response = await api.getUserInfo();
+      const userInfo = response.data;
       this.setData({ userInfo });
       wx.setStorageSync('userInfo', userInfo);
     } catch (error) {
@@ -66,23 +67,30 @@ Page({
   // 加载最近巡检记录
   async loadRecentInspections() {
     try {
-      const response = await inspectionApi.getRecentInspections();
+      const response = await api.getInspections();
+      console.log('获取到巡检列表:', response);
       const formattedInspections = response.data.map(item => ({
-        ...item,
-        date: formatDate(item.date)
+        id: item.id,
+        name: item.title,
+        date: item.created_at,
+        status: item.status_display || '草稿'
       }));
       this.setData({ recentInspections: formattedInspections });
     } catch (error) {
+      console.error('加载巡检记录失败:', error);
       handleError(error, '加载巡检记录失败');
     }
   },
 
-  // 跳转到详情页
+  // 跳转到事件页面
   goToDetail(e) {
     const id = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: `/pages/inspection/create?id=${id}`,
-      fail: () => handleError(new Error('页面跳转失败'))
+      url: `/pages/event/index?inspectionId=${id}`,
+      fail: (error) => {
+        console.error('跳转到事件页面失败:', error);
+        handleError(new Error('页面跳转失败'));
+      }
     });
   },
 

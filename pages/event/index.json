@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "事件列表",
+  "usingComponents": {
+    "loading": "/components/loading/index"
+  }
+} 

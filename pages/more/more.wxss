@@ -1,62 +1,12 @@
-page {
-  background: #f0f6ff;
+.container {
   min-height: 100vh;
-}
-
-.search-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  background: #f5f7fa;
   padding: 24rpx;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  gap: 16rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-  z-index: 100;
-}
-
-.search-input {
-  flex: 1;
-  height: 72rpx;
-  background: #f5f7fa;
-  border-radius: 36rpx;
-  display: flex;
-  align-items: center;
-  padding: 0 24rpx;
-}
-
-.search-input icon {
-  margin-right: 12rpx;
-  color: #999;
-}
-
-.search-input input {
-  flex: 1;
-  font-size: 28rpx;
-}
-
-.date-filter {
-  display: flex;
-  align-items: center;
-  padding: 16rpx 24rpx;
-  background: #f5f7fa;
-  border-radius: 32rpx;
-  font-size: 28rpx;
-  color: #666;
-}
-
-.date-filter image {
-  width: 32rpx;
-  height: 32rpx;
-  margin-left: 8rpx;
+  box-sizing: border-box;
 }
 
 .inspection-list {
-  margin-top: 120rpx;
-  height: calc(100vh - 120rpx);
-  padding: 24rpx;
+  margin-bottom: 24rpx;
 }
 
 .inspection-item {
@@ -64,48 +14,75 @@ page {
   border-radius: 16rpx;
   padding: 24rpx;
   margin-bottom: 24rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-}
-
-.item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
 }
 
-.item-name {
+.inspection-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.inspection-name {
   font-size: 32rpx;
   font-weight: 500;
   color: #333;
 }
 
-.item-date {
-  font-size: 26rpx;
-  color: #999;
-}
-
-.item-summary {
+.inspection-location {
   font-size: 28rpx;
   color: #666;
-  line-height: 1.6;
 }
 
-.loading, .no-more {
-  text-align: center;
-  padding: 24rpx;
+.inspection-date {
+  font-size: 24rpx;
   color: #999;
-  font-size: 28rpx;
 }
 
-.empty-state {
+.inspection-status {
+  padding: 8rpx 24rpx;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+}
+
+/* 草稿状态 */
+.inspection-status.draft {
+  background: rgba(153, 153, 153, 0.1);
+  color: #999999;
+}
+
+/* 进行中状态 */
+.inspection-status.in-progress {
+  background: rgba(71, 118, 230, 0.1);
+  color: #4776e6;
+}
+
+/* 已完成状态 */
+.inspection-status.completed {
+  background: rgba(7, 193, 96, 0.1);
+  color: #07c160;
+}
+
+/* 已归档状态 */
+.inspection-status.archived {
+  background: rgba(102, 102, 102, 0.1);
+  color: #666666;
+}
+
+.empty-tip {
   text-align: center;
   padding: 48rpx 0;
   color: #999;
   font-size: 28rpx;
 }
 
-.icon-calendar {
-  margin-left: 8rpx;
-  color: #666;
+.loading-more, .no-more {
+  text-align: center;
+  padding: 24rpx 0;
+  color: #999;
+  font-size: 24rpx;
 } 

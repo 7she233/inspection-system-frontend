@@ -3,7 +3,7 @@
   
   <view class="user-card">
     <view class="user-info">
-      <image class="user-avatar" src="{{userInfo.avatarUrl || '/assets/user.png'}}" default-avatar="/assets/user.png"></image>
+      <image class="user-avatar" src="{{userInfo.avatarUrl || 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'}}" />
       <view class="user-detail">
         <text class="user-name">{{userInfo.name || '未登录'}}</text>
         <text class="user-role">{{userInfo.role || ''}}</text>
